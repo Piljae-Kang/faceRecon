@@ -50,34 +50,48 @@ for i in range (x-1, x+2):
 
 
 def color_demosaicing(x, y, raw):
-   
-   color_ratio = np.array([0, 0, 0]) # (R G B)
-   
-   if x % 2 == 0 and y % 2 != 0: # red image sensor
+     
+    color_ratio = np.array([0, 0, 0]) # (R G B)
+    
+    
+    if x % 2 == 0 and y % 2 != 0: # red image sensor
        
        print("red")
        
        color_ratio[0] = raw[x][y]
        color_ratio[1] = (raw[x-1][y] + raw[x+1][y] + raw[x][y-1] + raw[x][y+1])/4
        color_ratio[2] = (raw[x-1][y-1] + raw[x+1][y+1] + raw[x-1][y+1] + raw[x+1][y-1])/4
-   
-   if (x % 2 == 0 and y % 2 == 0) or (x % 2 !=0 and y % 2 !=0): # green image sensor
+       
+    
+    
+    if (x % 2 == 0 and y % 2 == 0): # green image sensor
+
+        print("green")
+      
+        color_ratio[0] = (raw[x-1][y] + raw[x+1][y])/2
+        color_ratio[1] = raw[x][y]
+        color_ratio[2] = (raw[x-1][y] + raw[x+1][y])/2
+    
+    
+    
+    if (x % 2 !=0 and y % 2 !=0): # green image sensor
       
       print("green")
       
       color_ratio[0] = (raw[x-1][y] + raw[x+1][y])/2
       color_ratio[1] = raw[x][y]
       color_ratio[2] = (raw[x][y-1] + raw[x][y+1])/2
-   
-   if x % 2 != 0 and y % 2 == 0: # blue image sensor
+
+    if x % 2 != 0 and y % 2 == 0: # blue image sensor
         
         print("blue")
 
         color_ratio[0] = (raw[x-1][y-1] + raw[x+1][y+1] + raw[x-1][y+1] + raw[x+1][y-1])/4
         color_ratio[1] = (raw[x-1][y] + raw[x+1][y] + raw[x][y-1] + raw[x][y+1])/4
         color_ratio[2] = raw[x][y]
-
-   return tuple(int(round(x)) for x in color_ratio/np.linalg.norm(color_ratio)*255)
+        
+        
+    return tuple(int(round(x)) for x in color_ratio/np.linalg.norm(color_ratio)*255)
 
 
 color = color_demosaicing(x, y, raw)
