@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 import glob
 import cv2
+from process_raw import DngFile
 
 def read_dng_file(file_path):
     # DNG 파일 열기
@@ -72,7 +73,9 @@ input_path = args.input + "/*.DNG"
 images = glob.glob(input_path)
 
 for i, frame in enumerate(images):
-    image_array = read_dng_file(frame)
+
+    image_array = DngFile.read(frame)
+    print(image_array.sh)
     # 결과 확인
     # print(image_array.shape)  # 이미지 배열의 형태 출력
 
