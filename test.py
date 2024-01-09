@@ -1,15 +1,21 @@
-import cv2
 import numpy as np
 
-# checkerboard dimension
-CHECKERBOARD = (4,5) # inner checkboard cols and rows
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-# 각 체커보드 이미지에 대한 3D 점 벡터를 저장할 벡터 생성
-objpoints = []
-# 각 체커보드 이미지에 대한 2D 점 벡터를 저장할 벡터 생성
-imgpoints = [] 
-# 3D world coordinates point
-objp = np.zeros((1, CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
-objp[0,:,:2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
+# 예시로 가정한 데이터
+raw_R = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
+raw_G = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
+raw_B = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
 
-print(objp)
+# R, G, B를 3차원으로 합치기
+raw_RGB = np.concatenate([raw_R, raw_G, raw_B], axis=-1)
+
+# 결과 출력
+print("Raw R:")
+print(raw_R)
+print("\nRaw G:")
+print(raw_G)
+print("\nRaw B:")
+print(raw_B)
+print("\nConcatenated raw_RGB:")
+print(raw_RGB)
+
+print(raw_RGB.shape)
