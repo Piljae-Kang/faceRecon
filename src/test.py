@@ -1,41 +1,21 @@
-import cv2
 import numpy as np
-from process_raw import DngFile
 
-dng_path = "image1.DNG"
+# 예시로 가정한 데이터
+raw_R = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
+raw_G = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
+raw_B = np.random.randint(0, 256, size=(3, 4), dtype=np.uint64)
 
-dng = DngFile.read(dng_path)
-raw = dng.raw  # np.uint16
-raw_8bit = np.uint8(raw >> (dng.bit-8))
+# R, G, B를 3차원으로 합치기
+raw_RGB = np.concatenate([raw_R, raw_G, raw_B], axis=-1)
 
-print(dng.bit)
-print(raw.shape)
-print(raw_8bit.shape)
+# 결과 출력
+print("Raw R:")
+print(raw_R)
+print("\nRaw G:")
+print(raw_G)
+print("\nRaw B:")
+print(raw_B)
+print("\nConcatenated raw_RGB:")
+print(raw_RGB)
 
-H, W = raw.shape
-
-flag = 0
-print("------------------------------------")
-for i in range (0, H):
-    
-    if flag == 5:
-        break
-
-    for j in range(0, W):
-    
-
-        if raw_8bit[i][j] > 10:
-            flag += 1
-            print(f'{flag}. 16bit raw : ', np.binary_repr(raw[i][j],width=16))
-            print(f'{flag}. 8bit raw :  ', np.binary_repr(raw_8bit[i][j],width=8))
-            print("------------------------------------")
-            break
-
-cv2.imwrite("raw_8bit.png", raw_8bit)
-
-
-# rgb1 = dng.postprocess()  # demosaicing by rawpy
-# cv2.imwrite("rgb1.jpg", rgb1[:, :, ::-1])
-# rgb2 = dng.demosaicing(poww=0.3)  # demosaicing with gamma correction
-# cv2.imwrite("rgb2.jpg", rgb2[:, :, ::-1])
-# DngFile.save(dng_path + "-save.dng", dng.raw, bit=dng.bit, pattern=dng.pattern)
+print(raw_RGB.shape)
